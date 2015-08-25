@@ -20,8 +20,8 @@ public:
 
         int v = INT_MAX;
         int ii = 0, jj = 0, kk = 0, nn = 0;
-        for(int i = 1; i <= m; i++){
-            for(int j = i; j <= m; j++){
+        for(int i = 0; i <= m; i++){
+            for(int j = i+1; j <= m; j++){
                 vector<int> tmp(n + 1, 0);
                 for(int k = 1; k <= n; k++)
                     tmp[k] = nums[j][k] - nums[i][k];
@@ -42,10 +42,10 @@ public:
             }
         }
 
-        ans.push_back(i);
-        ans.push_back(k);
-        ans.push_back(j + 1);
-        ans.push_back(nn + 1);
+        ans.push_back(ii);
+        ans.push_back(kk);
+        ans.push_back(jj - 1);
+        ans.push_back(nn - 1);
         return ans;
     }
 };
