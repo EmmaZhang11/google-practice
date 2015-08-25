@@ -8,7 +8,7 @@
         int sum = 0;
         int cur = 0;
         while(sum < k){
-            if(cur > nums.size() || (sum + 1 < nums[cur])){
+            if(cur >= nums.size() || (sum + 1 < nums[cur])){
                 ans.push_back(sum+1);
                 sum += sum + 1;
             }

@@ -5,19 +5,20 @@ ab这组和cd这组不一样
 */
 
 int cubeGroupCount(int n){
-	int k = pow(n, 1/ 3.0);
-	vector<int> res(k+1, 0);
-	for(int i = 1; i <= k; i++)
-		res[i] = i*i*i;
-	unordered_map<int,int> mp;
-	for(int i = 0; i <= k; i++){
-		for(int j = i; j <= k; j++){
-			int v = res[i] + res[j];
-			mp[v]++；
-		}
-	}
-	int count = 0;
-	for(auto it = mp.begin(); it != mp.end(); it++)
-		if(it->second > 1) count++;
-	return count;
+    int k = pow(n, 1/ 3.0);
+    vector<int> res(k+1, 0);
+    for(int i = 1; i <= k; i++)
+        res[i] = i*i*i;
+    unordered_map<int,int> mp;
+    for(int i = 0; i <= k; i++){
+        for(int j = i; j <= k; j++){
+            int v = res[i] + res[j];
+            mp[v]++;
+        }
+    }
+    int count = 0;
+    for(auto it = mp.begin(); it != mp.end(); it++)
+        if(it->second > 1){cout << it->first <<endl;; count++;}
+    return count;
 }
+
