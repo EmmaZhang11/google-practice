@@ -22,8 +22,7 @@ void help(TreeNode *root){
 	if (root == NULL) return;
 	int sm = 0, bg = 0;
 	if (root->left){
-		if (root->left->small == -1)
-			help(root->left);
+		help(root->left);	
 
 		if (root->left->val <= root->val){
 			sm = max(sm, root->left->small);
@@ -38,8 +37,7 @@ void help(TreeNode *root){
 
 	}
 	if (root->right){
-		if (root->right->small == -1)
-			help(root->right);
+		help(root->right);	
 
 		if (root->right->val <= root->val){
 			sm = max(sm, root->right->small);
