@@ -36,7 +36,7 @@ class Solution{
 		TreeNode *tmp = st1.top();
 		st1.pop();
 		TreeNode *rn = tmp->right;
-		if (rn){
+		while(rn){
 			st1.push(rn);
 			rn = rn->left;
 		}
@@ -47,7 +47,7 @@ class Solution{
 		TreeNode *tmp = st2.top();
 		st2.pop();
 		TreeNode *ln = tmp->left;
-		if (ln){
+		while(ln){
 			st2.push(ln);
 			ln = ln->right;
 		}
