@@ -1,4 +1,5 @@
 //将多叉树序列化，通过网络传输到另一台机器，并恢复
+//这里要注意val是否是unique的，如果不是要给每个节点生成一个unique id.
 
 #include <iostream>
 #include <vector>
