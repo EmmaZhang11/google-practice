@@ -13,25 +13,23 @@ struct TreeNode{
 
 bool isCompleteBT(TreeNode *root){
     if(root == NULL) return true;
-    queue<pair<TreeNode *,int>> q;
-    q.push(make_pair(root,0));
-    int pre = 0;
-    int curCnt = 0;
+    queue<TreeNode *> q;
+    q.push(root);
+    bool sign = true;
     while(!q.empty()){
-        pair<TreeNode *, int> p = q.front();
+        TreeNode * tn = q.front();
         q.pop();
-        if(p.second == pre) curCnt++;
-        else{
-            if(curCnt != pow(2, pre)) return false;
-            pre = p.second;
-            curCnt = 1;
+        if(tn->left) q.push(tn->left);
+        if(tn->right) q.push(tn->right);
+        if(sign){
+            if(tn->left == NULL && tn->right != NULL) return false;
+            if(tn->right == NULL) sign = false;
         }
-        TreeNode *tn = p.first;
-        if(tn->left) q.push(make_pair(tn->left, p.second+1));
-        if(tn->right) q.push(make_pair(tn->right, p.second+1));
+        else{
+            if(tn->left != NULL || tn->right != NULL) return false;
+        }
     }
-    if(curCnt == pow(2, pre)) return true; // don't forget this
-    else return false;
+    return true;
 }
 
 int main()
@@ -39,9 +37,11 @@ int main()
     cout << isCompleteBT(NULL);
     TreeNode *root = new TreeNode(0);
     cout << isCompleteBT(root);
-    root->left = new TreeNode(2);
+    root->right = new TreeNode(2);
     cout << isCompleteBT(root);
-    root->right = new TreeNode(3);
+    root->left = new TreeNode(3);
+    cout << isCompleteBT(root);
+    root->left->right = new TreeNode(4);
     cout << isCompleteBT(root);
     return 0;
 }
