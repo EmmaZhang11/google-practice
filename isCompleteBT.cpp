@@ -32,6 +32,24 @@ bool isCompleteBT(TreeNode *root){
     return true;
 }
 
+int countNodes(TreeNode* root) {
+	if(!root)
+		return 0;
+	return 1 + countNodes(root->left) + countNodes(root->right);
+}
+bool isCompleteTree2(TreeNode* root, int index, int num) {
+	if(!root)
+		return true;
+	if(index >= num)
+		return false;
+	return isCompleteTree2(root->left, 2*index + 1, num) && isCompleteTree2(root->right, 2*index+2, num);
+}
+bool isCompleteTree2(TreeNode *root) {
+	int num = countNodes(root);
+	return isCompleteTree2(root, 0, num);
+
+}
+
 int main()
 {
     cout << isCompleteBT(NULL);
