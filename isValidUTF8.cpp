@@ -1,34 +1,40 @@
 
 ------------------ my solution -------------------------
-bool isValidUTF8(char* str, int len){
-	if(len == 0) return true;
-	char first = str[0];
-	int one = 0;
-	int bit = 8;
-	
-	while(bit > 0){
-		int mask = (1 << bit - 1) - (1 << (bit - 1) - 1);
-		if(first & mask) one++;
-		else break;
-		bit--;
-	}
-	if(one == 0)
-	{
-		int mask = (1 << 7 - 1) - (1 << (7 - 1) - 1);
-		if(first & mask) return false;
-		else return isValidUTF8(str + 1,len - 1);
-	}
-	int i = 1;
-	while( i < one)
-		if(i >= len) return false;
-		char c = str[i];
-		int mask1 = (1 << 8 - 1) - (1 << (8 - 1) - 1); 
-		int mask2 = (1 << 7 - 1) - (1 << (7 - 1) - 1); 
-		if( !(mask1 & c) || (mask2 & c) )return false;
-		i++;
-	}
 
-	return isValidUTF8(str + one, len - one);
+//C和C++都没有提供二进制数的表达方法 用十六进制替换
+//bytes[i] & 0xA0 == 0x0 这个式子优先级==更高，所以前面用括号
+
+bool isValidUTF8(char* bytes, int len){
+    if(len == 0) return true;
+    int expectedLen = 0;
+    for(int i = 0; i < len; i++){
+        if((bytes[i] & 0xA0) == 0x0)       //(bytes[i] & 1100 0000) == 0000 0000
+            continue;
+        else if((bytes[i] & 0xE0) == 0xA0) //(bytes[i] & 1110 0000) == 1100 0000
+            expectedLen = 2;
+        else if((bytes[i] & 0xF0) == 0xE0) //(bytes[i] & 1111 0000) == 1110 0000
+            expectedLen = 3;
+        else if((bytes[i] & 0xF8) == 0xF0) //(bytes[i] & 1111 1000) == 1111 0000
+            expectedLen = 4;
+        else if((bytes[i] & 0xFA) == 0xF8) //(bytes[i] & 1111 1100) == 11111 000
+            expectedLen = 5;
+        else if((bytes[i] & 0xFE) == 0xFA) //(bytes[i] & 1111 1110) == 1111 1100
+            expectedLen = 6;
+        else if((bytes[i] & 0xFF) == 0xFE) //(bytes[i] & 1111 1111) == 1111 1110
+            expectedLen = 7;
+        else if((bytes[i] & 0xFF) == 0xFF) //(bytes[i] & 1111 1111) == 1111 1111
+            expectedLen = 8;
+        else return false;
+        
+        expectedLen--;
+        while(expectedLen > 0){
+            if(++i >= len) return false; // exceed the len
+            if((bytes[i] & 0xA0) != 0x80)  //(bytes[i] & 1100 0000) != 1000 0000
+                return false;
+            expectedLen--;
+        }
+    }
+    return true;
 }
 
 ------------- yao solution -------------------
