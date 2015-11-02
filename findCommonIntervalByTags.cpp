@@ -32,15 +32,12 @@ vector<Interval> findCommonIntervalByTags(vector<Interval> intervals, vector<int
     }
     sort(vec.begin(), vec.end(), cmp);
     unordered_map<int, int> mp;
-    int mi = -1, ma = INT_MAX;
     for(int i = 0; i < vec.size(); i++){
         if(vec[i].s == 0){
             mp[vec[i].tag] = vec[i].x;
         }else{
             if(mp.size() == set.size()){
-                for(auto p: mp)
-                    mi = max(mi, p.second);
-                ans.push_back(Interval(mi, vec[i].x, 0));
+                ans.push_back(Interval(vec[i-1].x, vec[i].x, 0));
             }
             mp.erase(vec[i].tag);
         }
