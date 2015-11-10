@@ -1,3 +1,9 @@
+/*找出missing number 范围. 
+number范围[0,99]
+input: [0, 1, 2,50 , 52, 75]
+output: "3-49,51,53-74,76-99"
+*/
+
 #include <iostream>
 #include <vector>
 #include <string>
