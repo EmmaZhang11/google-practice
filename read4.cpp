@@ -19,8 +19,7 @@ public:
             int cur = read4(buffer);
             int len = min(cur, n - cnt);
             for(int i = 0; i < len; i++)
-                buf[cnt+i] = buffer[i];
-            cnt += len;
+                buf[cnt++] = buffer[i];
             if(cur != 4 || cnt == n) break;
         }
         
@@ -28,12 +27,23 @@ public:
     }
     
     // Input: "a", [read(0),read(1),read(2)]  Expected: ["","a",""]
+    // if last read is not dividable by 4, we should record the last read 4 bytes.
     int read2(char *buf, int n) {
-        //待写
-        
-        //return cnt;
-        return 0;
+        int cnt = 0;
+        while(cnt < n){
+            if(bPtr == 0)   //no chars left in buffer last read
+                bCnt = read4(buffer);
+            if(bCnt == 0) break; //end of file
+            while(cnt < n && bPtr < bCnt)
+                buf[cnt++] = buffer[bPtr++];
+            if(bPtr == bCnt) bPtr = 0;
+        }
+        return cnt;
     }
+    
+private:
+    int bPtr, bCnt;
+    char buffer[4];
 };
 
 int main()
